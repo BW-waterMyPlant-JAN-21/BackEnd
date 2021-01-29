@@ -8,7 +8,7 @@ const findById = id=>{
 }
 
 const findBy = credentials=>{
-    return db('users').where(credentials).select('username','password').first()
+    return db('users').where(credentials).select('username','password','id').first()
 }
 
 const create = credentials=>{

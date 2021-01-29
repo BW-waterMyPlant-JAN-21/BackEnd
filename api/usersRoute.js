@@ -1,6 +1,7 @@
 const express = require('express')
 const Users = require('./users-model')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const router = express.Router()
 router.use(express.json()) 
 
@@ -73,8 +74,13 @@ router.post('/users/login', async (req,res,next)=>{
             return res.status(401).json({message: "invalid credentials"})
         }
 
-        res.status(200).json({message: `welcome ${user.username}`})
+        let token  = jwt.sign({
+            userId: user.id,
+        }, process.env.JWT_SECRET || "secure it or lose it")
+        res.cookie('token',token)
 
+        res.status(200).json({token: token})
+     
     }
     catch(err){next(err)}
 
