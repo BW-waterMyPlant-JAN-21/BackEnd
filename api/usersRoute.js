@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken')
 const router = express.Router()
 router.use(express.json()) 
 
+router.get('/',(req,res,next)=>{
+    res.status(200).json({message:" Welcome to build week Jan 2021"})
+})
+
 // get all users
 router.get('/users', async (req,res,next)=>{
     try{
