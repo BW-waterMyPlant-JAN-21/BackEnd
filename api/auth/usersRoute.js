@@ -3,6 +3,7 @@ const Users = require('./users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
+const {validateData} = require('./middleware')
 router.use(express.json()) 
 
 router.get('/',(req,res,next)=>{
@@ -30,24 +31,23 @@ router.get('/users/:id', async (req,res,next)=>{
 })
 
 // register user
-router.post('/users/register', async (req,res,next)=>{
+router.post('/users/register',validateData(), async (req,res,next)=>{
 
     try{
         const {username,password, phoneNumber} = req.body
+        
         const user = await Users.findBy({username})
-        if(user.username===username){
+      
+        if(user){
             return res.status(409).json({message: "username is already taken"})
         }
 
-        if(!username || !password || !phoneNumber){
-            return res.status(404).json({message:"username, password and phoneNumber are required"})
-        }
+      
         const newUser = await Users.create({
             username,
             password: await bcrypt.hash(password,12),
             phoneNumber
         })
-
 
         res.status(201).json(newUser)
 
@@ -68,7 +68,7 @@ router.post('/users/login', async (req,res,next)=>{
 
         const user = await Users.findBy({username})
         console.log('user',user)
-        if(!user.username){
+        if(!user){
             return res.status(401).json({message: "invalid credentials"})
         }
 
@@ -78,9 +78,9 @@ router.post('/users/login', async (req,res,next)=>{
             return res.status(401).json({message: "invalid credentials"})
         }
 
-        let token  = jwt.sign({
+        const token  = jwt.sign({
             userId: user.id,
-        }, process.env.JWT_SECRET || "secure it or lose it")
+        }, process.env.JWT_SECRET )
         res.cookie('token',token)
 
         res.status(200).json({token: token})

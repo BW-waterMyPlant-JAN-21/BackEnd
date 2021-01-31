@@ -8,9 +8,17 @@ exports.up = async function(knex) {
         tb.text('password').notNull()
         tb.text('phoneNumber').notNull()
     })
+    await knex.schema.createTable('plants',tb=>{
+      tb.increments('id')
+      tb.text('nickname').notNull().unique()
+      tb.text('species').notNull()
+      tb.text('frequency').notNull()
+    
+  })
   
 };
 
 exports.down = async function(knex) {
+  await knex.schema.dropTableIfExists('plants')
   await knex.schema.dropTableIfExists('users')
 };
