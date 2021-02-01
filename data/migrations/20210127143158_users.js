@@ -12,7 +12,7 @@ exports.up = async function(knex) {
       tb.increments('id')
       tb.text('nickname').notNull().unique()
       tb.text('species').notNull()
-      tb.text('frequency').notNull()
+      tb.text('frequency_hr').notNull()
     
   })
   

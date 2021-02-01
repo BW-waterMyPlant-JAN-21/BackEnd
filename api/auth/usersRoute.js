@@ -3,7 +3,7 @@ const Users = require('./users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-const {validateData} = require('./middleware')
+const {validateUserData,restrict} = require('./middleware')
 router.use(express.json()) 
 
 router.get('/',(req,res,next)=>{
@@ -11,7 +11,7 @@ router.get('/',(req,res,next)=>{
 })
 
 // get all users
-router.get('/users', async (req,res,next)=>{
+router.get('/users', restrict(),async (req,res,next)=>{
     try{
         const users = await Users.find()
         res.status(200).json(users)
@@ -31,7 +31,7 @@ router.get('/users/:id', async (req,res,next)=>{
 })
 
 // register user
-router.post('/users/register',validateData(), async (req,res,next)=>{
+router.post('/users/register',validateUserData(), async (req,res,next)=>{
 
     try{
         const {username,password, phoneNumber} = req.body
@@ -81,13 +81,36 @@ router.post('/users/login', async (req,res,next)=>{
         const token  = jwt.sign({
             userId: user.id,
         }, process.env.JWT_SECRET )
-        res.cookie('token',token)
+
+        res.cookie('token',token) //tell the client to save this token in its cookie jar
+
+         // if valid username and password, create new session and send it to client
+         req.session.user = user
 
         res.status(200).json({token: token})
      
     }
     catch(err){next(err)}
 
+})
+
+
+//logout
+
+router.get('/users/logout',async (req,res,next)=>{
+    console.log('req.session',req.session)
+    try{
+        req.session.destroy(err=>{
+            if(err){
+                next(err)
+            } else{
+                res.send({message:'logout successfully'})
+                res.status(204).end()
+            }
+        })
+    }
+    catch(err){next(err)}
+    next()
 })
 
 
