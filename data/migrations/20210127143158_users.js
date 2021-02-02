@@ -13,6 +13,12 @@ exports.up = async function(knex) {
       tb.text('nickname').notNull().unique()
       tb.text('species').notNull()
       tb.text('frequency_hr').notNull()
+      tb.integer('user_id')
+      .references('id')
+      .inTable('users')
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE")
+      .notNull()
     
   })
   

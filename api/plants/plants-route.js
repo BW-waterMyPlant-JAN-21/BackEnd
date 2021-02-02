@@ -1,22 +1,40 @@
 const express = require('express')
 const Plants = require('./plants-model')
+const Users = require('../auth/users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-const {restrict,validatePlantData} = require('../../api/auth/middleware')
+const {validatePlantData} = require('../../middleware/middleware')
 router.use(express.json()) 
 
-router.get('/', restrict(), async (req,res,next)=>{
+const validateUser = ()=>{
+    return async (req,res,next)=>{
+        try{
+            const id = req.params.id
+            const user = await Users.findById(id)
+            if(!user){
+                return res.status(404).json({message:`no user exist with id ${id}`})
+            }
+            next()
+
+        }
+        catch(err){next(err)}
+    }
+}
+
+//  get all plants belong to a specific user
+router.get('/users/:id', validateUser(), async (req,res,next)=>{
     try{
-        const plants = await Plants.find()
+        const id = req.params.id
+        const plants = await Plants.find(id)
         res.status(200).json(plants)
     }
     catch(err){next(err)}
     
 })
-//get plants by id
+//get plants by id to a specific user
 
-router.get('/:id', restrict(), async (req,res,next)=>{
+router.get('/:id', async (req,res,next)=>{
 
     try{
         const plant = await Plants.findById(req.params.id)
@@ -30,7 +48,7 @@ router.get('/:id', restrict(), async (req,res,next)=>{
 })
 
 //add new plant with specific user  ??????????????
-router.post('/users/:id', restrict(),validatePlantData() ,async (req,res,next)=>{
+router.post('/',validatePlantData() ,async (req,res,next)=>{
 
     try{
         const {nickname, species,frequency_hr} = req.body
@@ -47,7 +65,7 @@ router.post('/users/:id', restrict(),validatePlantData() ,async (req,res,next)=>
 })
 
 //edit plant with specific user ??????????????
-router.put('/users/:id', restrict(), validatePlantData(), async (req,res,next)=>{
+router.put('/:id',  validatePlantData(), async (req,res,next)=>{
 
     try{
         const updatedPlant = await Plants.update(req.body)
@@ -59,7 +77,7 @@ router.put('/users/:id', restrict(), validatePlantData(), async (req,res,next)=>
 
 // delete plant based on id
 
-router.delete('/:id', restrict(), async (req,res,next)=>{
+router.delete('/:id', async (req,res,next)=>{
     try{
         await Plants.remove(req.params.id)
         res.send({message: `plant with id ${req.params.id} is delete successfully`})

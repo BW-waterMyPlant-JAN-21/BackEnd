@@ -3,7 +3,7 @@ const Users = require('./users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-const {validateUserData,restrict} = require('./middleware')
+const {validateUserData,restrict} = require('../../middleware/middleware')
 router.use(express.json()) 
 
 router.get('/',(req,res,next)=>{

@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const usersRoute = require('./api/auth/usersRoute')
 const plantsRoute = require('./api/plants/plants-route')
+const {restrict} = require('./middleware/middleware')
 const db = require('./data/config-db')
 
 const server = express()
@@ -26,6 +27,6 @@ server.use(session({
 server.use(cookieParser()) // automatically parse incoming cookies and make thm available in req.cookies 
 
 server.use('/api/auth',usersRoute)
-server.use('/api/plants',plantsRoute)
+server.use('/api/plants', restrict(), plantsRoute)
 
 module.exports = server

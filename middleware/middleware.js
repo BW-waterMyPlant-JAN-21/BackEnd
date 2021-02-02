@@ -26,9 +26,21 @@ const validatePlantData = ()=>{
     }
 }
 
+//validateUSER
+
+const validateUser = ()=>{
+    return async (req,res,next)=>{
+        try{
+            const id = req.params.id
+
+        }
+        catch(err){next(err)}
+    }
+}
+
 const restrict = ()=>{
     return async (req,res,next)=>{
-        console.log('req middleware',req.cookies.token)
+       
         try{
             const token = req.cookies.token
             if(!token){
