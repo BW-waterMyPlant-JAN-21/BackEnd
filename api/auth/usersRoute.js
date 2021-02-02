@@ -40,7 +40,7 @@ router.post('/register', async (req,res,next)=>{
         if(!username || !password || !phoneNumber){
             return res.status(404).json({message:"username, password and phoneNumber are required"})
         }
-        
+
         const user = await Users.findBy({username})
       
         if(user){
@@ -57,7 +57,9 @@ router.post('/register', async (req,res,next)=>{
         res.status(201).json(newUser)
 
     }
-    catch(err){next(err)}
+    catch(err){
+        console.log('register errors',err)
+        next(err)}
 })
 
 // login user
