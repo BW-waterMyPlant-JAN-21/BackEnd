@@ -32,6 +32,7 @@ router.get('/users/:id/plants', validateUser(), async (req,res,next)=>{
     catch(err){next(err)}
     
 })
+
 //get plants by id to a specific user
 
 router.get('/users/:user_id/plants/:id', async (req,res,next)=>{

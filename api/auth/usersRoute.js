@@ -6,6 +6,7 @@ const router = express.Router()
 const {validateUserData,restrict} = require('../../middleware/middleware')
 router.use(express.json()) 
 
+// welcome page
 router.get('/',(req,res,next)=>{
     res.status(200).json({message:" Welcome to build week Jan 2021"})
 })
@@ -31,7 +32,7 @@ router.get('/users/:id', async (req,res,next)=>{
 })
 
 // register user
-router.post('/users/register',validateUserData(), async (req,res,next)=>{
+router.post('/register',validateUserData(), async (req,res,next)=>{
 
     try{
         const {username,password, phoneNumber} = req.body
@@ -57,7 +58,7 @@ router.post('/users/register',validateUserData(), async (req,res,next)=>{
 
 // login user
 
-router.post('/users/login', async (req,res,next)=>{
+router.post('/login', async (req,res,next)=>{
 
     try{
         const {username,password} = req.body
@@ -97,7 +98,7 @@ router.post('/users/login', async (req,res,next)=>{
 
 //logout
 
-router.get('/users/logout',async (req,res,next)=>{
+router.get('/logout',async (req,res,next)=>{
     console.log('req.session',req.session)
     try{
         req.session.destroy(err=>{
