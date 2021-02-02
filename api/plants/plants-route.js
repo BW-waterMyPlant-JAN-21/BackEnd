@@ -23,7 +23,7 @@ const validateUser = ()=>{
 }
 
 //  get all plants belong to a specific user
-router.get('/users/:id', validateUser(), async (req,res,next)=>{
+router.get('/users/:id/plants', validateUser(), async (req,res,next)=>{
     try{
         const id = req.params.id
         const plants = await Plants.find(id)
@@ -34,7 +34,7 @@ router.get('/users/:id', validateUser(), async (req,res,next)=>{
 })
 //get plants by id to a specific user
 
-router.get('/:id', async (req,res,next)=>{
+router.get('/users/:user_id/plants/:id', async (req,res,next)=>{
 
     try{
         const plant = await Plants.findById(req.params.id)
@@ -48,7 +48,7 @@ router.get('/:id', async (req,res,next)=>{
 })
 
 //add new plant with specific user  ??????????????
-router.post('/',validatePlantData() ,async (req,res,next)=>{
+router.post('/users/:id',validatePlantData() ,async (req,res,next)=>{
 
     try{
         const {nickname, species,frequency_hr} = req.body
@@ -65,7 +65,7 @@ router.post('/',validatePlantData() ,async (req,res,next)=>{
 })
 
 //edit plant with specific user ??????????????
-router.put('/:id',  validatePlantData(), async (req,res,next)=>{
+router.put('users/:user_id/plants/:id',  validatePlantData(), async (req,res,next)=>{
 
     try{
         const updatedPlant = await Plants.update(req.body)
@@ -77,7 +77,7 @@ router.put('/:id',  validatePlantData(), async (req,res,next)=>{
 
 // delete plant based on id
 
-router.delete('/:id', async (req,res,next)=>{
+router.delete('users/:user_id/plants/:id', async (req,res,next)=>{
     try{
         await Plants.remove(req.params.id)
         res.send({message: `plant with id ${req.params.id} is delete successfully`})
