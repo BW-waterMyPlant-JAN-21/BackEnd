@@ -32,11 +32,14 @@ router.get('/users/:id', async (req,res,next)=>{
 })
 
 // register user
-router.post('/register',validateUserData(), async (req,res,next)=>{
+router.post('/register', async (req,res,next)=>{
 
     try{
         const {username,password, phoneNumber} = req.body
         
+        if(!username || !password || !phoneNumber){
+            return res.status(404).json({message:"username, password and phoneNumber are required"})
+        }
         const user = await Users.findBy({username})
       
         if(user){
