@@ -59,6 +59,7 @@ router.post('/register', async (req,res,next)=>{
     }
     catch(err){
         console.log('register errors',err)
+        res.send(err)
         next(err)}
 })
 
