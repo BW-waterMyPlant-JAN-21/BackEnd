@@ -6,7 +6,7 @@
   "scripts": {
   
     "server": "nodemon index.js",
-    "start": "node --require sslmode=require index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
