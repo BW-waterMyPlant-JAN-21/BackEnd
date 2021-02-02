@@ -5,7 +5,7 @@ const server = express()
 server.use(express.json())
 
 const validateUserData = ()=>{
-    return async (req,res,next)=>{
+    return (req,res,next)=>{
         const {username,password, phoneNumber} = req.body
 
         if(!username || !password || !phoneNumber){
