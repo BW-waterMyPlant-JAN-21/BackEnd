@@ -18,15 +18,14 @@ server.use(session({
     secret: process.env.JWT_SECRET,
     store: new knexSessionStore({
         knex: db,
-        createTable: true
-        
+        createTable: true  
     })
 
 }))
 
 server.use(cookieParser()) // automatically parse incoming cookies and make thm available in req.cookies 
 
-server.use('/auth',usersRoute)
+server.use(usersRoute)
 server.use('/api/', restrict(), plantsRoute)
 
 module.exports = server
