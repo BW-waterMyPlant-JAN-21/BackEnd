@@ -17,26 +17,15 @@ const validateUserData = ()=>{
 
 const validatePlantData = ()=>{
     return async (req,res,next)=>{
-        const {nickname, species,frequency_hr} = req.body
+        const {nickname, species,frequency_d} = req.body
 
-        if(!nickname || !species || !frequency_hr){
+        if(!nickname || !species || !frequency_d){
             return res.status(404).json({message:"nickname, species and frequency_hr are required"})
         }
         next()
     }
 }
 
-//validateUSER
-
-const validateUser = ()=>{
-    return async (req,res,next)=>{
-        try{
-            const id = req.params.id
-
-        }
-        catch(err){next(err)}
-    }
-}
 
 const restrict = ()=>{
     return async (req,res,next)=>{
