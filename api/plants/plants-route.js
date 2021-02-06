@@ -36,7 +36,7 @@ router.get('/users/:user_id', async (req,res,next)=>{
 
 //get plants by id to a specific user
 
-router.get('/:id', restrict(), async (req,res,next)=>{
+router.get('/:id', async (req,res,next)=>{
 
     try{
         const plant = await Plants.findById(req.params.id)
