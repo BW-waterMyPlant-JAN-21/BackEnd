@@ -20,7 +20,7 @@ const validatePlantData = ()=>{
         const {nickname, species,frequency_d} = req.body
 
         if(!nickname || !species || !frequency_d){
-            return res.status(404).json({message:"nickname, species and frequency_hr are required"})
+            return res.status(404).json({message:"nickname, species and frequency_d are required"})
         }
         next()
     }
@@ -40,7 +40,7 @@ const restrict = ()=>{
                     res.status(403).json({message:'invalid token'})
                 }
             })
-            // req.token.decoded
+            req.token = decoded
             next()
 
         }

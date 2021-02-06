@@ -4,7 +4,7 @@ const Users = require('../auth/users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-const {validatePlantData} = require('../../middleware/middleware')
+const {validatePlantData, restrict} = require('../../middleware/middleware')
 router.use(express.json()) 
 
 const validateUser = ()=>{
@@ -23,10 +23,11 @@ const validateUser = ()=>{
 }
 
 //  get all plants belong to a specific user
-router.get('/users/:user_id/plants', validateUser(), async (req,res,next)=>{
+// router.get('/users/:user_id/plants', validateUser(), async (req,res,next)=>{
+    router.get('/', restrict(), async (req,res,next)=>{
     try{
-        const id = req.params.user_id
-        const plants = await Plants.find(id)
+        // const id = req.params.user_id
+        const plants = await Plants.find()
         res.status(200).json(plants)
     }
     catch(err){next(err)}
@@ -35,10 +36,10 @@ router.get('/users/:user_id/plants', validateUser(), async (req,res,next)=>{
 
 //get plants by id to a specific user
 
-router.get('/users/:user_id/plants/:id', validateUser(), async (req,res,next)=>{
+router.get('/:id', restrict(), async (req,res,next)=>{
 
     try{
-        const plant = await Plants.findById(req.params.user_id,req.params.id)
+        const plant = await Plants.findById(req.params.id)
         if(!plant){
             return res.status(401).json({message:`no plant exists with id ${req.params.id}`})
         }
@@ -49,16 +50,12 @@ router.get('/users/:user_id/plants/:id', validateUser(), async (req,res,next)=>{
 })
 
 //add new plant with specific user  ??????????????
-router.post('/users/:user_id/plants',validatePlantData() ,async (req,res,next)=>{
+router.post('/',validatePlantData() ,async (req,res,next)=>{
 
     try{
-        // const {nickname, species,frequency_d} = req.body
-        // const plant = await Plants.findBy(req.params.user_id,nickname)
-        // if(plant){
-        //     return res.status(409).json({message: "plant is already created"})
-        // }
+    
 
-        const newPlant = await Plants.create(req.params.user_id,req.body)
+        const newPlant = await Plants.create(req.body)
         res.status(200).json(newPlant)
     }
     catch(err){next(err)}
@@ -66,7 +63,7 @@ router.post('/users/:user_id/plants',validatePlantData() ,async (req,res,next)=>
 })
 
 //edit plant with specific user ??????????????
-router.put('users/:user_id/plants/:id',  validatePlantData(), async (req,res,next)=>{
+router.put('/:id',  validatePlantData(), async (req,res,next)=>{
 
     try{
         const updatedPlant = await Plants.update(req.params.id,req.body)
