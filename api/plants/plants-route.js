@@ -26,8 +26,8 @@ const validateUser = ()=>{
 router.get('/users/:user_id', async (req,res,next)=>{
     // router.get('/', restrict(), async (req,res,next)=>{
     try{
-        // const id = req.params.user_id
-        const plants = await Plants.find()
+        const id = req.params.user_id
+        const plants = await Plants.find(id)
         res.status(200).json(plants)
     }
     catch(err){next(err)}
