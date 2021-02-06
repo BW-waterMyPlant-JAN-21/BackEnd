@@ -39,8 +39,9 @@ const restrict = ()=>{
                 if(err){
                     res.status(403).json({message:'invalid token'})
                 }
+                req.token = decoded
             })
-            req.token = decoded
+          
             next()
 
         }
