@@ -5,14 +5,14 @@ const db = require('../../data/config-db')
 //     return db('plants as p').innerJoin("users as u","u.id","p.user_id").where({user_id: user_id}).select("p.id","p.nickname","p.species","p.frequency_d")
 // }
 
-const find= ()=>{
-    return db('plants')
+const find= (user_id)=>{
+    return db('plants').where('user_id',user_id)
 }
 
-const findBy = (user_id,plant)=>{
-    find(user_id)
-    return db('plants').where('id',plant.id).first()
-}
+// const findBy = (user_id,plant)=>{
+//     find(user_id)
+//     return db('plants').where('id',plant.id).first()
+// }
 
 const findById =(id)=>{
     // find(user_id)
@@ -20,7 +20,7 @@ const findById =(id)=>{
 }
 
 const create = (plant) =>{
-    return db.insert(plant).into('plants') //.innerJoin('users as u','u.id','p.user_id').where({id},'u.id') //.then(ids=>{return findById(ids[0])})
+    return db('plants').insert(plant).then(ids=>{return findById(ids[0])}) //.innerJoin('users as u','u.id','p.user_id').where({id},'u.id') //.then(ids=>{return findById(ids[0])})
 }
 
 const update = (id,updatedItem)=>{
