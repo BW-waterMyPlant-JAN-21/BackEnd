@@ -23,8 +23,8 @@ const validateUser = ()=>{
 }
 
 //  get all plants belong to a specific user
-// router.get('/users/:user_id/plants', validateUser(), async (req,res,next)=>{
-    router.get('/', async (req,res,next)=>{
+router.get('/users/:user_id', async (req,res,next)=>{
+    // router.get('/', restrict(), async (req,res,next)=>{
     try{
         // const id = req.params.user_id
         const plants = await Plants.find()
@@ -54,7 +54,7 @@ router.post('/:user_id',validatePlantData() ,async (req,res,next)=>{
 
     try{
     
-        const {id} = req.params
+        const {id} = req.params.user_id
         const newPlant = await Plants.create(id,req.body)
         res.status(200).json(newPlant)
     }
