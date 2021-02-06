@@ -54,8 +54,10 @@ router.post('/:user_id',validatePlantData() ,async (req,res,next)=>{
 
     try{
     
-        const {id} = req.params.user_id
-        const newPlant = await Plants.create(id,req.body)
+        const id = req.params.user_id
+        let {nickname,species,frequency_d}= req.body
+        const addedPlant = {user_id:id,nickname:nickname,species:species,frequency_d:frequency_d}
+        const newPlant = await Plants.create(addedPlant)
         res.status(200).json(newPlant)
     }
     catch(err){next(err)}
