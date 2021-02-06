@@ -19,8 +19,8 @@ const findById =(id)=>{
     return db('plants').where({id}) //.first().select('id','nickname','species','frequency_d')
 }
 
-const create = (plant) =>{
-    return db.insert(plant).into('plants') //.then(ids=>{return findById(ids[0])})
+const create = (id,plant) =>{
+    return db.insert(plant).into('plants as p').innerJoin('users as u','u.id','p.user_id').where({id},'u.id') //.then(ids=>{return findById(ids[0])})
 }
 
 const update = (id,updatedItem)=>{
