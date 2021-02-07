@@ -50,7 +50,7 @@ router.get('/:id', async (req,res,next)=>{
 })
 
 //add new plant with specific user  ??????????????
-router.post('/:user_id',validatePlantData() ,async (req,res,next)=>{
+router.post('/users/:user_id',validatePlantData() ,async (req,res,next)=>{
 
     try{
     
@@ -77,7 +77,7 @@ router.put('/:id',  validatePlantData(), async (req,res,next)=>{
 
 // delete plant based on id
 
-router.delete('/plants/:id', async (req,res,next)=>{
+router.delete('/:id', async (req,res,next)=>{
     try{
         await Plants.remove(req.params.id)
         res.send({message: `plant with id ${req.params.id} is delete successfully`})
