@@ -31,4 +31,4 @@ const remove = (id)=>{
     return db('plants').where('id',id).del()
 }
 
-module.exports= {find,findById,findBy,create,remove,update}
+module.exports= {find,findById,create,remove,update}

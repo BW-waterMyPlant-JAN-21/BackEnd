@@ -3,13 +3,21 @@ const session = require('express-session')
 const knexSessionStore = require('connect-session-knex')(session)
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const helmet = require('helmet')
+const welcomeRouter = require('./api/welcome')
 const usersRoute = require('./api/auth/usersRoute')
 const plantsRoute = require('./api/plants/plants-route')
 const {restrict} = require('./middleware/middleware')
 const db = require('./data/config-db')
 
 const server = express()
-server.use(cors())
+server.use(helmet())
+server.use(cors(
+    {
+        origin: 'http://localhost:3000',
+        credentials: true
+    }
+))
 server.use(express.json())
 
 server.use(session({
@@ -25,6 +33,7 @@ server.use(session({
 
 server.use(cookieParser()) // automatically parse incoming cookies and make them available in req.cookies 
 
+server.use(welcomeRouter)
 server.use(usersRoute)
 server.use(plantsRoute)
 
