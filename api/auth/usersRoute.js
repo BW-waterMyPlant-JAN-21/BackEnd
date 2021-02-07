@@ -3,7 +3,7 @@ const Users = require('./users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
-const {validateUserData,restrict} = require('../../middleware/middleware')
+// const {validateUserData,restrict} = require('../../middleware/middleware')
 router.use(express.json()) 
 
 // welcome page
@@ -12,7 +12,7 @@ router.get('/',(req,res,next)=>{
 })
 
 // get all users
-router.get('/users',async (req,res,next)=>{
+router.get('auth/users',async (req,res,next)=>{
     try{
         const users = await Users.find()
         res.status(200).json(users)
@@ -32,7 +32,7 @@ router.get('/users/:id', async (req,res,next)=>{
 })
 
 // register user
-router.post('/register', async (req,res,next)=>{
+router.post('/auth/register', async (req,res,next)=>{
 
     try{
         const {username,password, phoneNumber} = req.body
@@ -65,7 +65,7 @@ router.post('/register', async (req,res,next)=>{
 
 // login user
 
-router.post('/login', async (req,res,next)=>{
+router.post('/auth/login', async (req,res,next)=>{
 
     try{
         const {username,password} = req.body
@@ -105,7 +105,7 @@ router.post('/login', async (req,res,next)=>{
 
 //logout
 
-router.get('/logout',async (req,res,next)=>{
+router.get('/auth/logout',async (req,res,next)=>{
     console.log('req.session',req.session)
     try{
         req.session.destroy(err=>{
