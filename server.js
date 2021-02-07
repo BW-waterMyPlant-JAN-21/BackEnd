@@ -26,6 +26,6 @@ server.use(session({
 server.use(cookieParser()) // automatically parse incoming cookies and make them available in req.cookies 
 
 server.use('/auth', usersRoute)
-server.use('/plants', restrict(), plantsRoute)
+server.use('/plants',  plantsRoute)
 
 module.exports = server

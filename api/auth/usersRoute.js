@@ -12,7 +12,7 @@ router.get('/',(req,res,next)=>{
 })
 
 // get all users
-router.get('/users', restrict(),async (req,res,next)=>{
+router.get('/users',async (req,res,next)=>{
     try{
         const users = await Users.find()
         res.status(200).json(users)
