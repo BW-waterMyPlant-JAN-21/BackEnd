@@ -17,32 +17,23 @@ const validateUserData = ()=>{
 
 const validatePlantData = ()=>{
     return async (req,res,next)=>{
-        const {nickname, species,frequency_hr} = req.body
+        const {nickname, species,frequency_d} = req.body
 
-        if(!nickname || !species || !frequency_hr){
-            return res.status(404).json({message:"nickname, species and frequency_hr are required"})
+        if(!nickname || !species || !frequency_d){
+            return res.status(404).json({message:"nickname, species and frequency_d are required"})
         }
         next()
     }
 }
 
-//validateUSER
-
-const validateUser = ()=>{
-    return async (req,res,next)=>{
-        try{
-            const id = req.params.id
-
-        }
-        catch(err){next(err)}
-    }
-}
 
 const restrict = ()=>{
     return async (req,res,next)=>{
        
         try{
-            const token = req.cookies.token
+            // const token = req.cookies.token
+            const token = req.headers.authorization
+
             if(!token){
                 return res.status(403).json({message:'token is required'})
             }
@@ -50,8 +41,9 @@ const restrict = ()=>{
                 if(err){
                     res.status(403).json({message:'invalid token'})
                 }
+                req.token = decoded
             })
-            // req.token.decoded
+          
             next()
 
         }
