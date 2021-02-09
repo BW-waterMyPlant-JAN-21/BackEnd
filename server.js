@@ -14,7 +14,7 @@ const server = express()
 server.use(helmet())
 server.use(cors(
     {
-        origin: 'http://localhost:3000',
+        origin: 'https://front-end-j-mo.vercel.app/',
         credentials: true
     }
 ))
