@@ -12,12 +12,13 @@ const db = require('./data/config-db')
 
 const server = express()
 server.use(helmet())
-server.use(cors(
-    {
-        origin: 'https://front-end-j-mo.vercel.app/',
-        credentials: true
-    }
-))
+server.use(cors()) 
+
+//    {
+//     origin: 'https://front-end-j-mo.vercel.app/',
+//     credentials: true
+// }
+
 server.use(express.json())
 
 server.use(session({
